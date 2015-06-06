@@ -19,25 +19,31 @@ module.exports = function(app, express) {
     saveUninitialized: true
   }));
 
-  // 'api/recipes' routing
+  /******** 'api/recipes' routing ********/
   app.post('/api/recipes', utils.checkUser, appController.getUserRecipes);
   app.get('/api/recipes', utils.checkUser, recipeController.getYummlyRecipe);
   app.post('/api/recipes/ingredients', recipeController.createIngredientsList);
   
-  // 'api/mealplan' routing
+  /******** 'api/mealplan' routing ********/
   app.post('/api/mealplan', utils.checkUser, appController.saveUserMealPlan);
   app.get('/api/mealplan', utils.checkUser, appController.getUserMealPlans);
 
-  // 'api/preferences' routing
+  /******** 'api/preferences' routing ********/
   app.post('/api/recipePreferences', recipePreferenceController.updatePreferences);
   app.put('/api/recipePreferences', recipePreferenceController.updatePreferences);
 
-  // 'api/users' routing
-  app.get('/api/user', utils.checkUser, utils.sendLoggedInStatus);
-  app.post('/api/user', userController.routeUser);
+  /******** 'api/users' routing ********/ 
+  //login 
+  app.get('/api/user', appController.userLogin);
+  //signup
+  app.post('/api/user', appController.userSignUp);
+  //update user profile information
+  app.put('/api/user', appController.userUpdate);
 
+  /********check authetication status ********/
+  app.get('/api/auth', utils.checkUser, utils.sendLoggedInStatus);
+
+  /******** end user session ********/
   app.get('/api/logout', utils.logout);
   
-  // app.post('/api/users/signup', userController.signUp);
-  // app.post('/api/users/signin', userController.signIn);
 };

@@ -3,6 +3,7 @@ var recipePreferenceController = require('../recipePreference/recipePreferenceCo
 var recipeController = require('../recipe/recipeController');
 var mealPlanController = require('../mealPlan/mealPlanController');
 var userController = require('../user/userController');
+var utils = require('../config/utility');
 var kNN = require('../kNN');
 
 
@@ -59,6 +60,28 @@ module.exports = {
       .catch(function(error){
         res.status(500).send(error);
       })
+  },
+  userLogin: function(req,res){
+    userController.login(req.body.email, req.body.password)
+      .then(function(user){
+        utils.createSession(req, res, user);
+        res.status(200).send(user);
+      })
+      .catch(function(error){
+        res.status(401).send(error);
+      })
+  },
+  userSignUp: function(req, res){
+    userController.signUp(req.body.email, req.body.password)
+      .then(function(user){
+        res.status(200).send(user);
+      })
+      .catch(function(error){
+        res.status(409).send(error)
+      });
+  },
+  userUpdate: function(req, res){
+
   }
 };
 
