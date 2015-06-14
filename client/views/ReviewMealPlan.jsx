@@ -135,8 +135,8 @@ var ReviewMeals = React.createClass({
   handleSubmit: function(e){
     var that = this;
 
-    var mealPlan = new MealPlanModel(this.props.user);
-    var mealPlan.set({
+    var mealPlan = new MealPlanModel(this.props.user.id);
+    mealPlan.set({
       'title': this.state.mealPlanTitle,
       'userId': this.props.user.get('id'),
       'breakfastRecipes': this.props.breakfastCollection,
